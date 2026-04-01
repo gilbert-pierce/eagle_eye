@@ -1,0 +1,61 @@
+export interface ReimbursementRecord {
+  id: string;
+  机构: string;
+  部门: string;
+  责任中心: string;
+  报销人: string;
+  费用所属员工: string;
+  收款人: string;
+  费用所属客户: string;
+  '党组织/党务部门': string;
+  报销单编号: string;
+  费用类型: string;
+  费用科目: string;
+  '费用描述（招待原因）': string;
+  币种: string;
+  原币金额: number;
+  折人民币金额: number;
+  反冲金额: number;
+  税额: number;
+  状态: string;
+  发生日期: string;
+  提交日期: string;
+  记账日期: string;
+  当前审批人: string;
+  已审批人: string;
+  审批日期: string;
+  审批信息: string;
+  附件张数: number;
+  费用终止日期: string;
+  出差天数: number;
+  旅差费开始结束日期: string;
+  应酬招待主持人: string;
+  主持人人数: number;
+  行内陪餐人员: string;
+  行内陪餐人员人数: number;
+  工作人员: string;
+  工作人员人数: number;
+  招待对象: string;
+  招待对象人数: number;
+  招待人均金额: number;
+  工作人员人均金额: number;
+  赠品名称: string;
+  接待类型: string;
+  是否领用行内酒水: string;
+  酒水金额: number;
+  是否异地: string;
+  出差地点: string;
+  契约号: string;
+  关联发票: string;
+  HR系统审批单号: string;
+  特殊情况说明: string;
+  [key: string]: any;
+}
+
+export interface AuditRisk {
+  recordId: string;
+  ruleName: string;
+  severity: 'low' | 'medium' | 'high';
+  description: string;
+  entityName?: string;
+}

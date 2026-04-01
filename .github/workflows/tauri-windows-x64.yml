@@ -1,0 +1,40 @@
+name: build-windows-x64
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build Tauri (Windows x64)
+        uses: tauri-apps/tauri-action@v1
+        with:
+          args: --target x86_64-pc-windows-msvc
+          uploadWorkflowArtifacts: true
+          workflowArtifactNamePattern: windows-x64-[bundle]
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
