@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
+    "tauri": "tauri",
     "tauri:dev": "cross-env CI=false tauri dev",
     "tauri:build": "cross-env CI=false tauri build"
   },

@@ -34,7 +34,13 @@ jobs:
         uses: tauri-apps/tauri-action@action-v0.6.2
         with:
           args: --target x86_64-pc-windows-msvc
-          uploadWorkflowArtifacts: true
-          workflowArtifactNamePattern: windows-x64-[bundle]
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload bundles (Windows x64)
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64-bundles
+          if-no-files-found: error
+          path: |
+            src-tauri/target/release/bundle/**
