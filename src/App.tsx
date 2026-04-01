@@ -1038,7 +1038,41 @@ export default function App() {
     const ws = XLSX.utils.json_to_sheet(exportData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "审计分析结果");
-    XLSX.writeFile(wb, `EagleEye_审计分析结果_${new Date().getTime()}.xlsx`);
+    const fileName = `EagleEye_审计分析结果_${new Date().getTime()}.xlsx`;
+
+    const isTauri =
+      typeof window !== 'undefined' &&
+      (('__TAURI_INTERNALS__' in window) || ('__TAURI__' in window));
+
+    if (!isTauri) {
+      XLSX.writeFile(wb, fileName);
+      return;
+    }
+
+    (async () => {
+      try {
+        const [{save}, {writeFile}] = await Promise.all([
+          import('@tauri-apps/plugin-dialog'),
+          import('@tauri-apps/plugin-fs'),
+        ]);
+
+        const selectedPath = await save({
+          defaultPath: fileName,
+          filters: [{name: 'Excel', extensions: ['xlsx']}],
+        });
+        if (!selectedPath) return;
+
+        const arrayBuffer = XLSX.write(wb, {
+          bookType: 'xlsx',
+          type: 'array',
+        }) as ArrayBuffer;
+
+        await writeFile(selectedPath, new Uint8Array(arrayBuffer));
+      } catch (e) {
+        console.error(e);
+        alert('导出失败：请检查保存路径权限，或稍后重试。');
+      }
+    })();
   };
 
   const clearAll = () => {
