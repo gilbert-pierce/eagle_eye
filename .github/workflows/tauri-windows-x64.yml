@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build Tauri (Windows x64)
-        uses: tauri-apps/tauri-action@v1
+        uses: tauri-apps/tauri-action@action-v0.6.2
         with:
           args: --target x86_64-pc-windows-msvc
           uploadWorkflowArtifacts: true
